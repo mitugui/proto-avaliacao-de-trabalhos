@@ -1,4 +1,4 @@
-package br.edu.ifpr.pgua.eic.tads.usuario;
+package com.mitugui.avaliacaotrabalhos.usuario;
 
 public class Usuario {
     private int id;
@@ -13,6 +13,12 @@ public class Usuario {
         this.email = email;
         this.senha = senha;
         this.ativo = true;
+    }
+    
+    public Usuario(String nome, String email, String senha) {
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
     }
 
     public int getId() {
@@ -34,6 +40,4 @@ public class Usuario {
     public boolean isAtivo() {
         return ativo;
     }
-
-    
 }

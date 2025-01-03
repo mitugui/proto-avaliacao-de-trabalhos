@@ -1,4 +1,4 @@
-package br.edu.ifpr.pgua.eic.tads.exceptions;
+package com.mitugui.avaliacaotrabalhos.exceptions;
 
 public class ConexaoBancoException extends RuntimeException {
     public ConexaoBancoException(String mensagem, Throwable causa) {

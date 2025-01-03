@@ -1,4 +1,4 @@
-package br.edu.ifpr.pgua.eic.tads.usuario;
+package com.mitugui.avaliacaotrabalhos.usuario;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

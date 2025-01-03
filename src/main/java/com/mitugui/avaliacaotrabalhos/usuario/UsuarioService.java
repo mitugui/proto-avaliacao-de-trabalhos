@@ -1,13 +1,13 @@
-package br.edu.ifpr.pgua.eic.tads.usuario;
+package com.mitugui.avaliacaotrabalhos.usuario;
+
+import java.sql.Connection;
+
+import com.mitugui.avaliacaotrabalhos.FabricaDeConexoes;
 
 public class UsuarioService {
-    private UsuarioDAO usuarioDAO;
-
-    public UsuarioService(UsuarioDAO usuarioDAO) {
-        this.usuarioDAO = usuarioDAO;
-    }
-
     public boolean cadastrarUsuario(DadosUsuarioCadastro usuario) {
+        Connection conn = FabricaDeConexoes.getConnection();
+
         String mensagem = "";
         
         if (usuario.nome() == null || usuario.nome().isBlank()) {
@@ -24,6 +24,6 @@ public class UsuarioService {
             throw new IllegalArgumentException(mensagem);
         }
 
-        return usuarioDAO.salvar(usuario);
+        return new UsuarioDAO(conn).salvar(usuario);
     }
 }

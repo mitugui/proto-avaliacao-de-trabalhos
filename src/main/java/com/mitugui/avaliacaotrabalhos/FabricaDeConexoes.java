@@ -1,9 +1,10 @@
-package br.edu.ifpr.pgua.eic.tads;
+package com.mitugui.avaliacaotrabalhos;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import br.edu.ifpr.pgua.eic.tads.exceptions.ConexaoBancoException;
+import com.mitugui.avaliacaotrabalhos.exceptions.ConexaoBancoException;
+
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class FabricaDeConexoes {
