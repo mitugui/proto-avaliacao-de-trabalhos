@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class ProfessorService {
-    public boolean cadastrarProfessor(DadosProfessorCadastro professor){
+    public boolean cadastrarProfessor(DadosCadastroProfessor professor){
         String mensagem = validarDadosCadastro(professor);
 
         if (!mensagem.isBlank()) {
@@ -26,7 +26,7 @@ public class ProfessorService {
         }
     }
 
-    private String validarDadosCadastro(DadosProfessorCadastro professor) {
+    private String validarDadosCadastro(DadosCadastroProfessor professor) {
         String mensagem = "";
 
         if (professor.email() == null || professor.email().isBlank()) {
@@ -42,7 +42,7 @@ public class ProfessorService {
         return mensagem;
     }
     
-    public List<DadosProfessorListagem> listar() {
+    public List<DadosListagemProfessor> listar() {
         try (Connection conn = FabricaDeConexoes.getConnection()) {
             return new ProfessorDAO(conn).listar();
         } catch (SQLException e) {

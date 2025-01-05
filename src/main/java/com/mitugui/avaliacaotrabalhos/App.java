@@ -1,9 +1,9 @@
 package com.mitugui.avaliacaotrabalhos;
 
-import com.mitugui.avaliacaotrabalhos.professor.DadosProfessorCadastro;
-import com.mitugui.avaliacaotrabalhos.professor.DadosProfessorListagem;
+import com.mitugui.avaliacaotrabalhos.professor.DadosCadastroProfessor;
+import com.mitugui.avaliacaotrabalhos.professor.DadosListagemProfessor;
 import com.mitugui.avaliacaotrabalhos.professor.ProfessorService;
-import com.mitugui.avaliacaotrabalhos.usuario.DadosUsuarioCadastro;
+import com.mitugui.avaliacaotrabalhos.usuario.DadosCadastroUsuario;
 import com.mitugui.avaliacaotrabalhos.usuario.UsuarioService;
 
 import java.util.List;
@@ -69,7 +69,7 @@ public class App {
         var senha = leitura.nextLine();
         
         try {
-            if (usuarioService.cadastrarUsuario(new DadosUsuarioCadastro(nome, email, senha))) {
+            if (usuarioService.cadastrarUsuario(new DadosCadastroUsuario(nome, email, senha))) {
                 System.out.println("\nUsuário cadastrado com sucesso!!");
             } else {
                 System.out.println("\nErrooooo!");
@@ -92,7 +92,7 @@ public class App {
         var siape = leitura.nextInt();
 
         try {
-            if (professorService.cadastrarProfessor(new DadosProfessorCadastro(email, senha, siape))) {
+            if (professorService.cadastrarProfessor(new DadosCadastroProfessor(email, senha, siape))) {
                 System.out.println("\nProfessor cadastrado com sucesso!!");
             } else {
                 System.out.println("\nErrooooo!");
@@ -103,7 +103,7 @@ public class App {
     }
 
     private static void listarProfessores() {
-        List<DadosProfessorListagem> professores = professorService.listar();
+        List<DadosListagemProfessor> professores = professorService.listar();
 
         if (!professores.isEmpty()) {
             professores.forEach(p -> {

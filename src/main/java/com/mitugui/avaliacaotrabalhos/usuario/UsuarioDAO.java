@@ -11,7 +11,7 @@ public class UsuarioDAO {
         this.conn = connection;
     }
 
-    public boolean salvar(DadosUsuarioCadastro usuario) throws SQLException {
+    public boolean salvar(DadosCadastroUsuario usuario) throws SQLException {
         String sql = "INSERT INTO usuario(nome, email, senha) VALUES (?, ?, ?)";
 
         try (PreparedStatement pstm = conn.prepareStatement(sql)) {

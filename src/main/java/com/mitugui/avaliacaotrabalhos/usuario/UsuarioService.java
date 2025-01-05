@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import com.mitugui.avaliacaotrabalhos.FabricaDeConexoes;
 
 public class UsuarioService {
-    public boolean cadastrarUsuario(DadosUsuarioCadastro usuario) {
+    public boolean cadastrarUsuario(DadosCadastroUsuario usuario) {
         String mensagem = validarDadosCadastro(usuario);
 
         if (!mensagem.isBlank()) {
@@ -20,7 +20,7 @@ public class UsuarioService {
         }
     }
 
-    private String validarDadosCadastro(DadosUsuarioCadastro usuario) {
+    private String validarDadosCadastro(DadosCadastroUsuario usuario) {
         String mensagem = "";
 
         if (usuario.nome() == null || usuario.nome().isBlank()) {

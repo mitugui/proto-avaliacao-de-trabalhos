@@ -17,7 +17,7 @@ public class ProfessorDAO {
         this.conn = connection;
     }
 
-    private int procurar(DadosProfessorCadastro professor) throws UsuarioNaoEncontradoException {
+    private int procurar(DadosCadastroProfessor professor) throws UsuarioNaoEncontradoException {
         String sql = "SELECT id FROM usuario WHERE email = ? AND senha = ? AND ativo = 1;";
         int usuario_id = 0;
 
@@ -39,7 +39,7 @@ public class ProfessorDAO {
         return usuario_id;
     }
 
-    public boolean salvar(DadosProfessorCadastro professor) throws SQLException {
+    public boolean salvar(DadosCadastroProfessor professor) throws SQLException {
         String sql = "INSERT INTO professor(usuario_id, siape) VALUES (?, ?)";
         int usuario_id;
 
@@ -59,10 +59,10 @@ public class ProfessorDAO {
         }
     }
 
-    public List<DadosProfessorListagem> listar() throws SQLException {        
+    public List<DadosListagemProfessor> listar() throws SQLException {
         String sql = "SELECT u.nome, u.email, p.siape FROM professor p JOIN usuario u ON p.usuario_id = u.id WHERE ativo = 1;";
 
-        List<DadosProfessorListagem> professores = new ArrayList<>();
+        List<DadosListagemProfessor> professores = new ArrayList<>();
         
         try (
             PreparedStatement pstm = conn.prepareStatement(sql);
@@ -73,7 +73,7 @@ public class ProfessorDAO {
                 String email = rs.getString("email");
                 Integer siape = rs.getInt("siape");
 
-                professores.add(new DadosProfessorListagem(nome, email, siape));
+                professores.add(new DadosListagemProfessor(nome, email, siape));
             }
         }
 
