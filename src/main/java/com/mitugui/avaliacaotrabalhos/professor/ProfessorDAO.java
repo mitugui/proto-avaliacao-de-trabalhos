@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProfessorDAO {
     private Connection conn;
@@ -67,5 +69,26 @@ public class ProfessorDAO {
                 System.err.println("Erro ao fechar recursos: " + e.getMessage());                
             }
         }
+    }
+
+    public List<DadosProfessorListagem> listar() throws SQLException {        
+        String sql = "SELECT u.nome, u.email, p.siape FROM professor p JOIN usuario u ON p.usuario_id = u.id WHERE ativo = 1;";
+
+        List<DadosProfessorListagem> professores = new ArrayList<>();
+        
+        try (
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            ResultSet rs = pstm.executeQuery()
+            ) {
+            while (rs.next()) {
+                String nome = rs.getString("nome");
+                String email = rs.getString("email");
+                Integer siape = rs.getInt("siape");
+
+                professores.add(new DadosProfessorListagem(nome, email, siape));
+            }
+        }
+
+        return professores;
     }
 }

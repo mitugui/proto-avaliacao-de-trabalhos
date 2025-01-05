@@ -1,8 +1,10 @@
 package com.mitugui.avaliacaotrabalhos;
 
+import java.util.List;
 import java.util.Scanner;
 
 import com.mitugui.avaliacaotrabalhos.professor.DadosProfessorCadastro;
+import com.mitugui.avaliacaotrabalhos.professor.DadosProfessorListagem;
 import com.mitugui.avaliacaotrabalhos.professor.ProfessorService;
 import com.mitugui.avaliacaotrabalhos.usuario.DadosUsuarioCadastro;
 import com.mitugui.avaliacaotrabalhos.usuario.UsuarioService;
@@ -31,6 +33,10 @@ public class App {
                 case 2:
                     cadastrarProfessor();
                     break;
+                case 3:
+                    listarProfessores();
+                    break;
+                
                 case 0:
                     System.out.println("Saindo...");
                     break;
@@ -45,6 +51,7 @@ public class App {
     private static void mostrarMenu() {
         System.out.println("1 - Cadastrar usuário");
         System.out.println("2 - Cadastrar professor");
+        System.out.println("3 - Listar professores");
         System.out.println("0 - Sair");
     }
 
@@ -70,7 +77,7 @@ public class App {
         }
     }
 
-    private static void cadastrarProfessor(){
+    private static void cadastrarProfessor() {
         System.out.println("Digite os seguintes dados para o cadastro de um professor");
         
         System.out.print("Email: ");
@@ -90,6 +97,20 @@ public class App {
             }
         } catch (IllegalArgumentException e) {
             System.out.println("\n- " + e.getMessage());
+        }
+    }
+
+    private static void listarProfessores() {
+        List<DadosProfessorListagem> professores = professorService.listar();
+
+        if (!professores.isEmpty()) {
+            professores.forEach(p -> {
+                System.out.println("\nNome: " + p.nome());
+                System.out.println("Email: " + p.email());
+                System.out.println("Siape: " + p.siape());             
+            });
+        } else {
+            System.out.println("Não há professores cadastrados no momento!");
         }
     }
 }

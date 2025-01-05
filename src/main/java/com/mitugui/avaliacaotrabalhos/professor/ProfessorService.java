@@ -1,6 +1,8 @@
 package com.mitugui.avaliacaotrabalhos.professor;
 
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 import com.mitugui.avaliacaotrabalhos.FabricaDeConexoes;
 
@@ -25,5 +27,13 @@ public class ProfessorService {
         }
 
         return new ProfessorDAO(conn).salvar(professor);
+    }
+    
+    public List<DadosProfessorListagem> listar() {
+        try (Connection conn = FabricaDeConexoes.getConnection()) {
+            return new ProfessorDAO(conn).listar();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao listar professores.", e);
+        }
     }
 }
