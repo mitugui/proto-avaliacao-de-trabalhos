@@ -5,11 +5,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.mitugui.avaliacaotrabalhos.FabricaDeConexoes;
+import com.mitugui.avaliacaotrabalhos.exceptions.ConexaoBancoException;
 
 public class ProfessorService {
     public boolean cadastrarProfessor(DadosProfessorCadastro professor){
-        Connection conn = FabricaDeConexoes.getConnection();
-
         String mensagem = "";
         
         if (professor.email() == null || professor.email().isBlank()) {
@@ -26,7 +25,15 @@ public class ProfessorService {
             throw new IllegalArgumentException(mensagem);
         }
 
-        return new ProfessorDAO(conn).salvar(professor);
+        try (Connection conn = FabricaDeConexoes.getConnection()) {
+            return new ProfessorDAO(conn).salvar(professor);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Erro na validação dos dados: " + e.getMessage());
+        } catch (ConexaoBancoException e) {
+            throw new RuntimeException("Erro inesperado ao cadastrar professor. " + e.getMessage());
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro na conexão com o banco de dados ao cadastrar professor.", e);
+        }
     }
     
     public List<DadosProfessorListagem> listar() {

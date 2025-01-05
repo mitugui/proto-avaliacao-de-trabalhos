@@ -1,18 +1,18 @@
 package com.mitugui.avaliacaotrabalhos;
 
-import java.util.List;
-import java.util.Scanner;
-
 import com.mitugui.avaliacaotrabalhos.professor.DadosProfessorCadastro;
 import com.mitugui.avaliacaotrabalhos.professor.DadosProfessorListagem;
 import com.mitugui.avaliacaotrabalhos.professor.ProfessorService;
 import com.mitugui.avaliacaotrabalhos.usuario.DadosUsuarioCadastro;
 import com.mitugui.avaliacaotrabalhos.usuario.UsuarioService;
 
+import java.util.List;
+import java.util.Scanner;
+
 public class App {
-    private static Scanner leitura = new Scanner(System.in);
-    private static UsuarioService usuarioService = new UsuarioService();
-    private static ProfessorService professorService = new ProfessorService();
+    private final static Scanner leitura = new Scanner(System.in);
+    private final static UsuarioService usuarioService = new UsuarioService();
+    private final static ProfessorService professorService = new ProfessorService();
 
     public static void main(String[] args) {
         int opcao = 1;
@@ -46,13 +46,14 @@ public class App {
                     break;
             }
         }
+        leitura.close();
     }
 
     private static void mostrarMenu() {
         System.out.println("1 - Cadastrar usuário");
         System.out.println("2 - Cadastrar professor");
         System.out.println("3 - Listar professores");
-        System.out.println("0 - Sair");
+        System.out.println("\n0 - Sair");
     }
 
     private static void cadastrarUsuario() {
@@ -95,7 +96,7 @@ public class App {
             } else {
                 System.out.println("\nErrooooo!");
             }
-        } catch (IllegalArgumentException e) {
+        } catch (RuntimeException e) {
             System.out.println("\n- " + e.getMessage());
         }
     }
