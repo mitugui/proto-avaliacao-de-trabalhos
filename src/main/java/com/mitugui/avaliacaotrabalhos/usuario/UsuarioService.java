@@ -1,13 +1,12 @@
 package com.mitugui.avaliacaotrabalhos.usuario;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import com.mitugui.avaliacaotrabalhos.FabricaDeConexoes;
 
 public class UsuarioService {
     public boolean cadastrarUsuario(DadosUsuarioCadastro usuario) {
-        Connection conn = FabricaDeConexoes.getConnection();
-
         String mensagem = "";
         
         if (usuario.nome() == null || usuario.nome().isBlank()) {
@@ -24,6 +23,10 @@ public class UsuarioService {
             throw new IllegalArgumentException(mensagem);
         }
 
-        return new UsuarioDAO(conn).salvar(usuario);
+        try (Connection conn = FabricaDeConexoes.getConnection()) {
+            return new UsuarioDAO(conn).salvar(usuario);
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao cadastrar usuário no banco de dados.", e);
+        }
     }
 }
