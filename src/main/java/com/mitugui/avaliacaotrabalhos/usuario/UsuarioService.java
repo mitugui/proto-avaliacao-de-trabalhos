@@ -2,6 +2,7 @@ package com.mitugui.avaliacaotrabalhos.usuario;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import com.mitugui.avaliacaotrabalhos.FabricaDeConexoes;
 
@@ -34,5 +35,13 @@ public class UsuarioService {
         }
 
         return mensagem;
+    }
+
+    public List<DadosListagemUsuario> listar() {
+        try (Connection conn = FabricaDeConexoes.getConnection()) {
+            return new UsuarioDAO(conn).listar();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro no banco ao listar usuários", e);
+        }
     }
 }

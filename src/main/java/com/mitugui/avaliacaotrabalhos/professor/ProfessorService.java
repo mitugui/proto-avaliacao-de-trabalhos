@@ -46,7 +46,7 @@ public class ProfessorService {
         try (Connection conn = FabricaDeConexoes.getConnection()) {
             return new ProfessorDAO(conn).listar();
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar professores.", e);
+            throw new RuntimeException("Erro no banco ao listar professores.", e);
         }
     }
 }

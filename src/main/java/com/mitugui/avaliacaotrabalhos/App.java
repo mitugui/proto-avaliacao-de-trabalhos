@@ -4,8 +4,10 @@ import com.mitugui.avaliacaotrabalhos.professor.DadosCadastroProfessor;
 import com.mitugui.avaliacaotrabalhos.professor.DadosListagemProfessor;
 import com.mitugui.avaliacaotrabalhos.professor.ProfessorService;
 import com.mitugui.avaliacaotrabalhos.usuario.DadosCadastroUsuario;
+import com.mitugui.avaliacaotrabalhos.usuario.DadosListagemUsuario;
 import com.mitugui.avaliacaotrabalhos.usuario.UsuarioService;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,10 +19,7 @@ public class App {
     public static void main(String[] args) {
         int opcao = 1;
 
-        while (opcao != 0) {      
-            System.out.println("-----------------------------------------");  
-            System.out.println("Escolha uma das seguintes opções do menu:\n");
-
+        while (opcao != 0) {
             mostrarMenu();
 
             opcao = leitura.nextInt();
@@ -31,9 +30,12 @@ public class App {
                     cadastrarUsuario();
                     break;
                 case 2:
-                    cadastrarProfessor();
+                    listarUsuarios();
                     break;
                 case 3:
+                    cadastrarProfessor();
+                    break;
+                case 4:
                     listarProfessores();
                     break;
                 
@@ -50,10 +52,16 @@ public class App {
     }
 
     private static void mostrarMenu() {
+        System.out.println("-----------------------------------------");
+        System.out.println("Escolha uma das seguintes opções do menu:");
+        System.out.println();
         System.out.println("1 - Cadastrar usuário");
-        System.out.println("2 - Cadastrar professor");
-        System.out.println("3 - Listar professores");
-        System.out.println("\n0 - Sair");
+        System.out.println("2 - Listar usuários");
+        System.out.println();
+        System.out.println("3 - Cadastrar professor");
+        System.out.println("4 - Listar professores");
+        System.out.println();
+        System.out.println("0 - Sair");
         System.out.println();
     }
 
@@ -75,6 +83,23 @@ public class App {
                 System.out.println("\nErrooooo!");
             }
         } catch (IllegalArgumentException e) {
+            System.out.println("\n- " + e.getMessage());
+        }
+    }
+
+    private static void listarUsuarios() {
+        try {
+            List<DadosListagemUsuario> usuarios = usuarioService.listar();
+
+            if (!usuarios.isEmpty()) {
+                usuarios.forEach(u -> {
+                    System.out.println("\nNome: " + u.nome());
+                    System.out.println("Email: " + u.email());
+                });
+            } else {
+                System.out.println("Não hpa usuários cadastrados no momento!");
+            }
+        } catch (RuntimeException e) {
             System.out.println("\n- " + e.getMessage());
         }
     }
@@ -105,14 +130,18 @@ public class App {
     private static void listarProfessores() {
         List<DadosListagemProfessor> professores = professorService.listar();
 
-        if (!professores.isEmpty()) {
-            professores.forEach(p -> {
-                System.out.println("\nNome: " + p.nome());
-                System.out.println("Email: " + p.email());
-                System.out.println("Siape: " + p.siape());             
-            });
-        } else {
-            System.out.println("Não há professores cadastrados no momento!");
+        try {
+            if (!professores.isEmpty()) {
+                professores.forEach(p -> {
+                    System.out.println("\nNome: " + p.nome());
+                    System.out.println("Email: " + p.email());
+                    System.out.println("Siape: " + p.siape());
+                });
+            } else {
+                System.out.println("Não há professores cadastrados no momento!");
+            }
+        } catch (RuntimeException e) {
+            System.out.println("\n- " + e.getMessage());
         }
     }
 }
