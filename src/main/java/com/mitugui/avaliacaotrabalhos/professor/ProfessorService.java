@@ -1,25 +1,15 @@
 package com.mitugui.avaliacaotrabalhos.professor;
 
+import com.mitugui.avaliacaotrabalhos.FabricaDeConexoes;
+import com.mitugui.avaliacaotrabalhos.exceptions.ConexaoBancoException;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.mitugui.avaliacaotrabalhos.FabricaDeConexoes;
-import com.mitugui.avaliacaotrabalhos.exceptions.ConexaoBancoException;
-
 public class ProfessorService {
     public boolean cadastrarProfessor(DadosProfessorCadastro professor){
-        String mensagem = "";
-        
-        if (professor.email() == null || professor.email().isBlank()) {
-            mensagem +="O email não pode estar vazio.\n";
-        }
-        if (professor.senha() == null || professor.senha().isBlank()) {
-            mensagem +="O senha não pode estar vazio.\n";
-        }
-        if (professor.siape() == null || professor.siape().toString().isBlank()) {
-            mensagem +="A senha não pode estar vazia.\n";
-        }
+        String mensagem = validarDadosCadastro(professor);
 
         if (!mensagem.isBlank()) {
             throw new IllegalArgumentException(mensagem);
@@ -34,6 +24,22 @@ public class ProfessorService {
         } catch (SQLException e) {
             throw new RuntimeException("Erro na conexão com o banco de dados ao cadastrar professor.", e);
         }
+    }
+
+    private String validarDadosCadastro(DadosProfessorCadastro professor) {
+        String mensagem = "";
+
+        if (professor.email() == null || professor.email().isBlank()) {
+            mensagem +="O email não pode estar vazio.\n";
+        }
+        if (professor.senha() == null || professor.senha().isBlank()) {
+            mensagem +="O senha não pode estar vazio.\n";
+        }
+        if (professor.siape() == null || professor.siape().toString().isBlank()) {
+            mensagem +="A senha não pode estar vazia.\n";
+        }
+
+        return mensagem;
     }
     
     public List<DadosProfessorListagem> listar() {

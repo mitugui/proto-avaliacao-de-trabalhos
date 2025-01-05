@@ -54,7 +54,7 @@ public class App {
         System.out.println("2 - Cadastrar professor");
         System.out.println("3 - Listar professores");
         System.out.println("\n0 - Sair");
-        System.out.println("\n");
+        System.out.println();
     }
 
     private static void cadastrarUsuario() {

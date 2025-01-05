@@ -7,17 +7,7 @@ import com.mitugui.avaliacaotrabalhos.FabricaDeConexoes;
 
 public class UsuarioService {
     public boolean cadastrarUsuario(DadosUsuarioCadastro usuario) {
-        String mensagem = "";
-        
-        if (usuario.nome() == null || usuario.nome().isBlank()) {
-            mensagem +="O nome não pode estar vazio.\n";
-        }
-        if (usuario.email() == null || usuario.email().isBlank()) {
-            mensagem +="O email não pode estar vazio.\n";
-        }
-        if (usuario.senha() == null || usuario.senha().isBlank()) {
-            mensagem +="A senha não pode estar vazia.\n";
-        }
+        String mensagem = validarDadosCadastro(usuario);
 
         if (!mensagem.isBlank()) {
             throw new IllegalArgumentException(mensagem);
@@ -28,5 +18,21 @@ public class UsuarioService {
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao cadastrar usuário no banco de dados.", e);
         }
+    }
+
+    private String validarDadosCadastro(DadosUsuarioCadastro usuario) {
+        String mensagem = "";
+
+        if (usuario.nome() == null || usuario.nome().isBlank()) {
+            mensagem +="O nome não pode estar vazio.\n";
+        }
+        if (usuario.email() == null || usuario.email().isBlank()) {
+            mensagem +="O email não pode estar vazio.\n";
+        }
+        if (usuario.senha() == null || usuario.senha().isBlank()) {
+            mensagem +="A senha não pode estar vazia.\n";
+        }
+
+        return mensagem;
     }
 }
