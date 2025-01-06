@@ -49,7 +49,7 @@ public class UsuarioService {
 
     public boolean deletar(DadosValidacaoUsuario dados) {
         try (Connection conn = FabricaDeConexoes.getConnection()) {
-            return new UsuarioDAO(conn).deletar(validar(dados));
+            return new UsuarioDAO(conn).deletar(validar(dados, conn));
         } catch (SQLException e) {
             throw new RuntimeException("Erro no banco ao deletar usuário", e);
         } catch (RuntimeException e) {
@@ -57,15 +57,13 @@ public class UsuarioService {
         }
     }
 
-    public Integer validar(DadosValidacaoUsuario dados) {
-        try (Connection conn = FabricaDeConexoes.getConnection()) {
+    public Integer validar(DadosValidacaoUsuario dados, Connection conn) {
+        try {
             return new UsuarioDAO(conn).validar(dados);
         } catch (UsuarioNaoEncontradoException e) {
             throw new RuntimeException(e.getMessage());
         } catch (ConexaoBancoException e) {
             throw new RuntimeException("Erro inesperado ao apagar professor. " + e.getMessage());
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro na conexão com o banco de dados ao cadastrar professor.", e);
         }
     }
 }
