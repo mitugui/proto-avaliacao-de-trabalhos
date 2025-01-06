@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.mitugui.avaliacaotrabalhos.FabricaDeConexoes;
+import com.mitugui.avaliacaotrabalhos.exceptions.ConexaoBancoException;
+import com.mitugui.avaliacaotrabalhos.exceptions.UsuarioNaoEncontradoException;
 
 public class UsuarioService {
     public boolean cadastrarUsuario(DadosCadastroUsuario usuario) {
@@ -42,6 +44,28 @@ public class UsuarioService {
             return new UsuarioDAO(conn).listar();
         } catch (SQLException e) {
             throw new RuntimeException("Erro no banco ao listar usuários", e);
+        }
+    }
+
+    public boolean deletar(DadosValidacaoUsuario dados) {
+        try (Connection conn = FabricaDeConexoes.getConnection()) {
+            return new UsuarioDAO(conn).deletar(validar(dados));
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro no banco ao deletar usuário", e);
+        } catch (RuntimeException e) {
+            throw  new RuntimeException(e.getMessage());
+        }
+    }
+
+    public Integer validar(DadosValidacaoUsuario dados) {
+        try (Connection conn = FabricaDeConexoes.getConnection()) {
+            return new UsuarioDAO(conn).validar(dados);
+        } catch (UsuarioNaoEncontradoException e) {
+            throw new RuntimeException(e.getMessage());
+        } catch (ConexaoBancoException e) {
+            throw new RuntimeException("Erro inesperado ao apagar professor. " + e.getMessage());
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro na conexão com o banco de dados ao cadastrar professor.", e);
         }
     }
 }

@@ -5,9 +5,9 @@ import com.mitugui.avaliacaotrabalhos.professor.DadosListagemProfessor;
 import com.mitugui.avaliacaotrabalhos.professor.ProfessorService;
 import com.mitugui.avaliacaotrabalhos.usuario.DadosCadastroUsuario;
 import com.mitugui.avaliacaotrabalhos.usuario.DadosListagemUsuario;
+import com.mitugui.avaliacaotrabalhos.usuario.DadosValidacaoUsuario;
 import com.mitugui.avaliacaotrabalhos.usuario.UsuarioService;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -33,9 +33,12 @@ public class App {
                     listarUsuarios();
                     break;
                 case 3:
-                    cadastrarProfessor();
+                    excluirUsuario();
                     break;
                 case 4:
+                    cadastrarProfessor();
+                    break;
+                case 5:
                     listarProfessores();
                     break;
                 
@@ -57,9 +60,10 @@ public class App {
         System.out.println();
         System.out.println("1 - Cadastrar usuário");
         System.out.println("2 - Listar usuários");
+        System.out.println("3 - Excluir usuário");
         System.out.println();
-        System.out.println("3 - Cadastrar professor");
-        System.out.println("4 - Listar professores");
+        System.out.println("4 - Cadastrar professor");
+        System.out.println("5 - Listar professores");
         System.out.println();
         System.out.println("0 - Sair");
         System.out.println();
@@ -98,6 +102,24 @@ public class App {
                 });
             } else {
                 System.out.println("Não hpa usuários cadastrados no momento!");
+            }
+        } catch (RuntimeException e) {
+            System.out.println("\n- " + e.getMessage());
+        }
+    }
+
+    private static void excluirUsuario() {
+        System.out.println("Digite os seguintes dados para excluir um professor");
+
+        System.out.print("Email: ");
+        var email = leitura.nextLine();
+
+        System.out.print("Senha: ");
+        var senha = leitura.nextLine();
+
+        try {
+            if (usuarioService.deletar(new DadosValidacaoUsuario(email, senha))) {
+                System.out.println("Deletado!");
             }
         } catch (RuntimeException e) {
             System.out.println("\n- " + e.getMessage());
