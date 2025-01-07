@@ -1,5 +1,6 @@
 package com.mitugui.avaliacaotrabalhos;
 
+import com.mitugui.avaliacaotrabalhos.professor.DadosAtualizarProfessor;
 import com.mitugui.avaliacaotrabalhos.professor.DadosCadastroProfessor;
 import com.mitugui.avaliacaotrabalhos.professor.DadosListagemProfessor;
 import com.mitugui.avaliacaotrabalhos.professor.ProfessorService;
@@ -9,6 +10,7 @@ import com.mitugui.avaliacaotrabalhos.usuario.DadosListagemUsuario;
 import com.mitugui.avaliacaotrabalhos.usuario.DadosValidacaoUsuario;
 import com.mitugui.avaliacaotrabalhos.usuario.UsuarioService;
 
+import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -52,6 +54,9 @@ public class App {
                 case 6:
                     listarProfessores();
                     break;
+                case 7:
+                    atualizarProfessor();
+                    break;
                 
                 case 0:
                     System.out.println("Saindo...");
@@ -76,6 +81,7 @@ public class App {
         System.out.println();
         System.out.println("5 - Cadastrar professor");
         System.out.println("6 - Listar professores");
+        System.out.println("7 - Atualizar professor");
         System.out.println();
         System.out.println("0 - Sair");
         System.out.println();
@@ -209,6 +215,29 @@ public class App {
             }
         } catch (RuntimeException e) {
             System.out.println("\n- " + e.getMessage());
+        }
+    }
+
+    private static void atualizarProfessor() {
+        System.out.println("Digite os seguintes dados para a atualização do siape de um professor");
+        
+        System.out.print("Email: ");
+        var email = leitura.nextLine();
+        
+        System.out.print("Senha: ");
+        var senha = leitura.nextLine();
+
+        System.out.print("Siape: ");
+        var siape = leitura.nextInt();
+
+        try {
+            if (professorService.atualizar(new DadosAtualizarProfessor(siape, email, senha))) {
+                System.out.println("Atualizado!!");
+            } else {
+                System.out.println("Não foi atualizado!!");
+            }
+        } catch (RuntimeException e) {
+            System.out.println("\n- " + e.getMessage());            
         }
     }
 }

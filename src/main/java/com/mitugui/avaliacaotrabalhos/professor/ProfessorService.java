@@ -49,4 +49,12 @@ public class ProfessorService {
             throw new RuntimeException("Erro no banco ao listar professores.", e);
         }
     }
+
+    public boolean atualizar(DadosAtualizarProfessor dados) {
+        try (Connection conn = FabricaDeConexoes.getConnection()) {
+            return new ProfessorDAO(conn).atualizar(dados);
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro no banco ao atualizar professores.", e);            
+        }
+    }
 }

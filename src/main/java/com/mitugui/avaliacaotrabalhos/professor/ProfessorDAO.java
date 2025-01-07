@@ -79,4 +79,16 @@ public class ProfessorDAO {
 
         return professores;
     }
+
+    public boolean atualizar (DadosAtualizarProfessor dados) throws SQLException {
+        String sql = "UPDATE professor p JOIN usuario u ON p.usuario_id = u.id SET siape = ? WHERE ativo = 1 AND email = ? AND senha = ?;";
+
+        try (PreparedStatement pstm = conn.prepareStatement(sql)) {
+            pstm.setInt(1, dados.siape());
+            pstm.setString(2, dados.email());
+            pstm.setString(3, dados.senha());
+
+            return pstm.executeUpdate() == 1;
+        }
+    }
 }
