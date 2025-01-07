@@ -47,13 +47,19 @@ public class UsuarioService {
         }
     }
 
+    public boolean atualizar(DadosAtualizarUsuario usuario, DadosValidacaoUsuario usuarioValidacao){
+        try (Connection conn = FabricaDeConexoes.getConnection()) {
+            return new UsuarioDAO(conn).atualizar(usuario, validar(usuarioValidacao, conn));
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro no banco ao atualizar usuário", e);
+        }
+    }
+
     public boolean deletar(DadosValidacaoUsuario dados) {
         try (Connection conn = FabricaDeConexoes.getConnection()) {
             return new UsuarioDAO(conn).deletar(validar(dados, conn));
         } catch (SQLException e) {
             throw new RuntimeException("Erro no banco ao deletar usuário", e);
-        } catch (RuntimeException e) {
-            throw  new RuntimeException(e.getMessage());
         }
     }
 
@@ -63,7 +69,7 @@ public class UsuarioService {
         } catch (UsuarioNaoEncontradoException e) {
             throw new RuntimeException(e.getMessage());
         } catch (ConexaoBancoException e) {
-            throw new RuntimeException("Erro inesperado ao apagar professor. " + e.getMessage());
+            throw new RuntimeException("Erro inesperado ao validar usuário. " + e.getMessage());
         }
     }
 }

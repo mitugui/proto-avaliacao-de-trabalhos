@@ -49,6 +49,19 @@ public class UsuarioDAO {
         return usuarios;
     }
 
+    public boolean atualizar(DadosAtualizarUsuario usuario, Integer id) throws SQLException{
+        String sql = "UPDATE usuario SET nome = ?, email = ?, senha = ? WHERE id = ? AND ativo = 1;";
+
+        try (PreparedStatement pstm = conn.prepareStatement(sql)) {
+            pstm.setString(1, usuario.nome());
+            pstm.setString(2, usuario.email());
+            pstm.setString(3, usuario.senha());
+            pstm.setInt(4, id);
+
+            return pstm.executeUpdate() == 1;
+        }
+    }
+
     public boolean deletar(Integer id) throws SQLException {
         String sql = "UPDATE usuario SET ativo = false WHERE id = ?";
 
@@ -72,11 +85,9 @@ public class UsuarioDAO {
                 } else {
                     throw new UsuarioNaoEncontradoException("O usuário não foi encontrado!!");
                 }
-            } catch (UsuarioNaoEncontradoException e) {
-                throw new UsuarioNaoEncontradoException(e.getMessage());
             }
         } catch (SQLException e) {
-            throw new ConexaoBancoException("Erro na conexão com o banco de dados ao validar professor.", e);
+            throw new ConexaoBancoException("Erro na conexão com o banco de dados ao validar usuário.", e);
         }
     }
 }

@@ -3,11 +3,13 @@ package com.mitugui.avaliacaotrabalhos;
 import com.mitugui.avaliacaotrabalhos.professor.DadosCadastroProfessor;
 import com.mitugui.avaliacaotrabalhos.professor.DadosListagemProfessor;
 import com.mitugui.avaliacaotrabalhos.professor.ProfessorService;
+import com.mitugui.avaliacaotrabalhos.usuario.DadosAtualizarUsuario;
 import com.mitugui.avaliacaotrabalhos.usuario.DadosCadastroUsuario;
 import com.mitugui.avaliacaotrabalhos.usuario.DadosListagemUsuario;
 import com.mitugui.avaliacaotrabalhos.usuario.DadosValidacaoUsuario;
 import com.mitugui.avaliacaotrabalhos.usuario.UsuarioService;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,13 +19,19 @@ public class App {
     private final static ProfessorService professorService = new ProfessorService();
 
     public static void main(String[] args) {
-        int opcao = 1;
+        int opcao = -1;
 
         while (opcao != 0) {
             mostrarMenu();
 
-            opcao = leitura.nextInt();
-            leitura.nextLine();
+            try {
+                opcao = leitura.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("- Voce deve digitar apenas números\n");
+                opcao = -1;
+            } finally {
+                leitura.nextLine();
+            }
 
             switch (opcao) {
                 case 1:
@@ -33,12 +41,15 @@ public class App {
                     listarUsuarios();
                     break;
                 case 3:
-                    excluirUsuario();
+                    atualizarUsuario();
                     break;
                 case 4:
-                    cadastrarProfessor();
+                    excluirUsuario();
                     break;
                 case 5:
+                    cadastrarProfessor();
+                    break;
+                case 6:
                     listarProfessores();
                     break;
                 
@@ -60,10 +71,11 @@ public class App {
         System.out.println();
         System.out.println("1 - Cadastrar usuário");
         System.out.println("2 - Listar usuários");
-        System.out.println("3 - Excluir usuário");
+        System.out.println("3 - Atualizar usuário");
+        System.out.println("4 - Excluir usuário");
         System.out.println();
-        System.out.println("4 - Cadastrar professor");
-        System.out.println("5 - Listar professores");
+        System.out.println("5 - Cadastrar professor");
+        System.out.println("6 - Listar professores");
         System.out.println();
         System.out.println("0 - Sair");
         System.out.println();
@@ -108,8 +120,41 @@ public class App {
         }
     }
 
+    private static void atualizarUsuario() {
+        System.out.println("Qual usuário você deseja atualizar");
+
+        System.out.print("Email: ");
+        var emailValidacao = leitura.nextLine();
+
+        System.out.print("Senha: ");
+        var senhaValidacao = leitura.nextLine();
+
+        DadosValidacaoUsuario usuarioValidacao = new DadosValidacaoUsuario(emailValidacao,  senhaValidacao);
+
+        System.out.println("Digite os seguintes dados para atualizar um usuário");
+
+        System.out.print("nome: ");
+        var nome = leitura.nextLine();
+
+        System.out.print("Email: ");
+        var email = leitura.nextLine();
+
+        System.out.print("Senha: ");
+        var senha = leitura.nextLine();
+
+        DadosAtualizarUsuario usuario = new DadosAtualizarUsuario(nome, email, senha);
+
+        try{
+            if(usuarioService.atualizar(usuario, usuarioValidacao)){
+                System.out.println("Atualizado!");
+            }
+        } catch (RuntimeException e) {
+            System.out.println("\n- " + e.getMessage());
+        }
+    }
+
     private static void excluirUsuario() {
-        System.out.println("Digite os seguintes dados para excluir um professor");
+        System.out.println("Digite os seguintes dados para excluir um usuário");
 
         System.out.print("Email: ");
         var email = leitura.nextLine();
