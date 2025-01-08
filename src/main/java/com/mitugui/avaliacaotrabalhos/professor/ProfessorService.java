@@ -36,7 +36,7 @@ public class ProfessorService {
             mensagem +="O senha não pode estar vazio.\n";
         }
         if (professor.siape() == null || professor.siape().toString().isBlank()) {
-            mensagem +="A senha não pode estar vazia.\n";
+            mensagem +="A siape não pode estar vazia.\n";
         }
 
         return mensagem;
