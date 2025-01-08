@@ -1,4 +1,4 @@
-package com.mitugui.avaliacaotrabalhos.estudante;
+package com.mitugui.avaliacaotrabalhos.modulos.estudante;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

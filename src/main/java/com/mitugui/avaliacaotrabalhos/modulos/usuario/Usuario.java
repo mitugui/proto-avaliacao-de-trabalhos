@@ -1,4 +1,4 @@
-package com.mitugui.avaliacaotrabalhos.usuario;
+package com.mitugui.avaliacaotrabalhos.modulos.usuario;
 
 public class Usuario {
     private int id;

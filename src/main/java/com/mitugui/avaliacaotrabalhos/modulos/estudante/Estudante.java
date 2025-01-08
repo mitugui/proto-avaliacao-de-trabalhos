@@ -1,4 +1,4 @@
-package com.mitugui.avaliacaotrabalhos.estudante;
+package com.mitugui.avaliacaotrabalhos.modulos.estudante;
 
 public class Estudante {
     private int usuario_id;

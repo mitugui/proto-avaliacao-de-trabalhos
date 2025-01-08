@@ -1,13 +1,13 @@
-package com.mitugui.avaliacaotrabalhos.estudante;
+package com.mitugui.avaliacaotrabalhos.modulos.estudante;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import com.mitugui.avaliacaotrabalhos.FabricaDeConexoes;
+import com.mitugui.avaliacaotrabalhos.config.FabricaDeConexoes;
 import com.mitugui.avaliacaotrabalhos.exceptions.ConexaoBancoException;
 import com.mitugui.avaliacaotrabalhos.exceptions.UsuarioNaoEncontradoException;
-import com.mitugui.avaliacaotrabalhos.usuario.DadosValidacaoUsuario;
-import com.mitugui.avaliacaotrabalhos.usuario.UsuarioDAO;
+import com.mitugui.avaliacaotrabalhos.modulos.usuario.DadosValidacaoUsuario;
+import com.mitugui.avaliacaotrabalhos.modulos.usuario.UsuarioDAO;
 
 public class EstudanteService {
     public boolean cadastrarEstudante(DadosCadastroEstudante estudante){

@@ -1,6 +1,6 @@
-package com.mitugui.avaliacaotrabalhos.professor;
+package com.mitugui.avaliacaotrabalhos.modulos.professor;
 
-import com.mitugui.avaliacaotrabalhos.FabricaDeConexoes;
+import com.mitugui.avaliacaotrabalhos.config.FabricaDeConexoes;
 import com.mitugui.avaliacaotrabalhos.exceptions.ConexaoBancoException;
 
 import java.sql.Connection;

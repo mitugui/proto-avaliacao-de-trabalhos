@@ -1,4 +1,4 @@
-package com.mitugui.avaliacaotrabalhos.professor;
+package com.mitugui.avaliacaotrabalhos.modulos.professor;
 
 public class Professor {
     private int usuario_id;

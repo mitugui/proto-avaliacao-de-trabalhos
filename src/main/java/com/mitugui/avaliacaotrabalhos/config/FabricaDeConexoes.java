@@ -1,4 +1,4 @@
-package com.mitugui.avaliacaotrabalhos;
+package com.mitugui.avaliacaotrabalhos.config;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

@@ -1,10 +1,10 @@
-package com.mitugui.avaliacaotrabalhos.usuario;
+package com.mitugui.avaliacaotrabalhos.modulos.usuario;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.mitugui.avaliacaotrabalhos.FabricaDeConexoes;
+import com.mitugui.avaliacaotrabalhos.config.FabricaDeConexoes;
 import com.mitugui.avaliacaotrabalhos.exceptions.ConexaoBancoException;
 import com.mitugui.avaliacaotrabalhos.exceptions.UsuarioNaoEncontradoException;
 

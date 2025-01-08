@@ -1,4 +1,4 @@
-package com.mitugui.avaliacaotrabalhos.usuario;
+package com.mitugui.avaliacaotrabalhos.modulos.usuario;
 
 import com.mitugui.avaliacaotrabalhos.exceptions.ConexaoBancoException;
 import com.mitugui.avaliacaotrabalhos.exceptions.UsuarioNaoEncontradoException;

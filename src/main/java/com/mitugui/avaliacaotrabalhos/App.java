@@ -1,16 +1,16 @@
 package com.mitugui.avaliacaotrabalhos;
 
-import com.mitugui.avaliacaotrabalhos.estudante.DadosCadastroEstudante;
-import com.mitugui.avaliacaotrabalhos.estudante.EstudanteService;
-import com.mitugui.avaliacaotrabalhos.professor.DadosAtualizarProfessor;
-import com.mitugui.avaliacaotrabalhos.professor.DadosCadastroProfessor;
-import com.mitugui.avaliacaotrabalhos.professor.DadosListagemProfessor;
-import com.mitugui.avaliacaotrabalhos.professor.ProfessorService;
-import com.mitugui.avaliacaotrabalhos.usuario.DadosAtualizarUsuario;
-import com.mitugui.avaliacaotrabalhos.usuario.DadosCadastroUsuario;
-import com.mitugui.avaliacaotrabalhos.usuario.DadosListagemUsuario;
-import com.mitugui.avaliacaotrabalhos.usuario.DadosValidacaoUsuario;
-import com.mitugui.avaliacaotrabalhos.usuario.UsuarioService;
+import com.mitugui.avaliacaotrabalhos.modulos.estudante.DadosCadastroEstudante;
+import com.mitugui.avaliacaotrabalhos.modulos.estudante.EstudanteService;
+import com.mitugui.avaliacaotrabalhos.modulos.professor.DadosAtualizarProfessor;
+import com.mitugui.avaliacaotrabalhos.modulos.professor.DadosCadastroProfessor;
+import com.mitugui.avaliacaotrabalhos.modulos.professor.DadosListagemProfessor;
+import com.mitugui.avaliacaotrabalhos.modulos.professor.ProfessorService;
+import com.mitugui.avaliacaotrabalhos.modulos.usuario.DadosAtualizarUsuario;
+import com.mitugui.avaliacaotrabalhos.modulos.usuario.DadosCadastroUsuario;
+import com.mitugui.avaliacaotrabalhos.modulos.usuario.DadosListagemUsuario;
+import com.mitugui.avaliacaotrabalhos.modulos.usuario.DadosValidacaoUsuario;
+import com.mitugui.avaliacaotrabalhos.modulos.usuario.UsuarioService;
 
 import java.util.InputMismatchException;
 import java.util.List;
