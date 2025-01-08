@@ -5,14 +5,16 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import com.mitugui.avaliacaotrabalhos.exceptions.ConexaoBancoException;
+import com.mitugui.avaliacaotrabalhos.interfaces.EstudanteDAO;
 
-public class EstudanteDAO {
+public class JDBCEstudanteDAO implements EstudanteDAO {
     private Connection conn;
 
-    public EstudanteDAO(Connection connection){
+    public JDBCEstudanteDAO(Connection connection){
         this.conn = connection;
     }
 
+    @Override
     public boolean salvar(DadosCadastroEstudante estudante, Integer usuario_id) throws SQLException {
         String sql = "INSERT INTO estudante(usuario_id, curso_id, ano_ingresso, matricula) VALUES (?, ?, ?, ?);";
 

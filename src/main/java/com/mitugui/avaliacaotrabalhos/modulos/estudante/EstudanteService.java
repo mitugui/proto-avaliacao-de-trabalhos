@@ -7,7 +7,7 @@ import com.mitugui.avaliacaotrabalhos.config.FabricaDeConexoes;
 import com.mitugui.avaliacaotrabalhos.exceptions.ConexaoBancoException;
 import com.mitugui.avaliacaotrabalhos.exceptions.UsuarioNaoEncontradoException;
 import com.mitugui.avaliacaotrabalhos.modulos.usuario.DadosValidacaoUsuario;
-import com.mitugui.avaliacaotrabalhos.modulos.usuario.UsuarioDAO;
+import com.mitugui.avaliacaotrabalhos.modulos.usuario.JDBCUsuarioDAO;
 
 public class EstudanteService {
     public boolean cadastrarEstudante(DadosCadastroEstudante estudante){
@@ -20,7 +20,7 @@ public class EstudanteService {
         DadosValidacaoUsuario usuario = new DadosValidacaoUsuario(estudante.email(), estudante.senha());
 
         try(Connection conn = FabricaDeConexoes.getConnection()){
-            return new EstudanteDAO(conn).salvar(estudante, new UsuarioDAO(conn).validar(usuario));
+            return new JDBCEstudanteDAO(conn).salvar(estudante, new JDBCUsuarioDAO(conn).validar(usuario));
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Erro na validação dos dados: " + e.getMessage());
         } catch (ConexaoBancoException e) {

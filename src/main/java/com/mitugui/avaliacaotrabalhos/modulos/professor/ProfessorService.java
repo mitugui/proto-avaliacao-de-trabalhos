@@ -16,7 +16,7 @@ public class ProfessorService {
         }
 
         try (Connection conn = FabricaDeConexoes.getConnection()) {
-            return new ProfessorDAO(conn).salvar(professor);
+            return new JDBCProfessorDAO(conn).salvar(professor);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Erro na validação dos dados: " + e.getMessage());
         } catch (ConexaoBancoException e) {
@@ -44,7 +44,7 @@ public class ProfessorService {
     
     public List<DadosListagemProfessor> listar() {
         try (Connection conn = FabricaDeConexoes.getConnection()) {
-            return new ProfessorDAO(conn).listar();
+            return new JDBCProfessorDAO(conn).listar();
         } catch (SQLException e) {
             throw new RuntimeException("Erro no banco ao listar professores.", e);
         }
@@ -52,7 +52,7 @@ public class ProfessorService {
 
     public boolean atualizar(DadosAtualizarProfessor dados) {
         try (Connection conn = FabricaDeConexoes.getConnection()) {
-            return new ProfessorDAO(conn).atualizar(dados);
+            return new JDBCProfessorDAO(conn).atualizar(dados);
         } catch (SQLException e) {
             throw new RuntimeException("Erro no banco ao atualizar professores.", e);            
         }

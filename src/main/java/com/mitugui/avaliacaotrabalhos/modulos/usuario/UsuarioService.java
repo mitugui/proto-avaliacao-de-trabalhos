@@ -17,7 +17,7 @@ public class UsuarioService {
         }
 
         try (Connection conn = FabricaDeConexoes.getConnection()) {
-            return new UsuarioDAO(conn).salvar(usuario);
+            return new JDBCUsuarioDAO(conn).salvar(usuario);
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao cadastrar usuário no banco de dados.", e);
         }
@@ -41,7 +41,7 @@ public class UsuarioService {
 
     public List<DadosListagemUsuario> listar() {
         try (Connection conn = FabricaDeConexoes.getConnection()) {
-            return new UsuarioDAO(conn).listar();
+            return new JDBCUsuarioDAO(conn).listar();
         } catch (SQLException e) {
             throw new RuntimeException("Erro no banco ao listar usuários", e);
         }
@@ -49,7 +49,7 @@ public class UsuarioService {
 
     public boolean atualizar(DadosAtualizarUsuario usuario, DadosValidacaoUsuario usuarioValidacao){
         try (Connection conn = FabricaDeConexoes.getConnection()) {
-            return new UsuarioDAO(conn).atualizar(usuario, validar(usuarioValidacao, conn));
+            return new JDBCUsuarioDAO(conn).atualizar(usuario, validar(usuarioValidacao, conn));
         } catch (SQLException e) {
             throw new RuntimeException("Erro no banco ao atualizar usuário", e);
         }
@@ -57,7 +57,7 @@ public class UsuarioService {
 
     public boolean deletar(DadosValidacaoUsuario dados) {
         try (Connection conn = FabricaDeConexoes.getConnection()) {
-            return new UsuarioDAO(conn).deletar(validar(dados, conn));
+            return new JDBCUsuarioDAO(conn).deletar(validar(dados, conn));
         } catch (SQLException e) {
             throw new RuntimeException("Erro no banco ao deletar usuário", e);
         }
@@ -65,7 +65,7 @@ public class UsuarioService {
 
     public Integer validar(DadosValidacaoUsuario dados, Connection conn) {
         try {
-            return new UsuarioDAO(conn).validar(dados);
+            return new JDBCUsuarioDAO(conn).validar(dados);
         } catch (UsuarioNaoEncontradoException e) {
             throw new RuntimeException(e.getMessage());
         } catch (ConexaoBancoException e) {

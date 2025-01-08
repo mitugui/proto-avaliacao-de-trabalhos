@@ -2,6 +2,7 @@ package com.mitugui.avaliacaotrabalhos.modulos.professor;
 
 import com.mitugui.avaliacaotrabalhos.exceptions.ConexaoBancoException;
 import com.mitugui.avaliacaotrabalhos.exceptions.UsuarioNaoEncontradoException;
+import com.mitugui.avaliacaotrabalhos.interfaces.ProfessorDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,10 +11,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfessorDAO {
+public class JDBCProfessorDAO implements ProfessorDAO {
     private final Connection conn;
 
-    public ProfessorDAO(Connection connection){
+    public JDBCProfessorDAO(Connection connection){
         this.conn = connection;
     }
 
@@ -39,6 +40,7 @@ public class ProfessorDAO {
         return usuario_id;
     }
 
+    @Override
     public boolean salvar(DadosCadastroProfessor professor) throws SQLException {
         String sql = "INSERT INTO professor(usuario_id, siape) VALUES (?, ?)";
         int usuario_id;
@@ -59,6 +61,7 @@ public class ProfessorDAO {
         }
     }
 
+    @Override
     public List<DadosListagemProfessor> listar() throws SQLException {
         String sql = "SELECT u.nome, u.email, p.siape FROM professor p JOIN usuario u ON p.usuario_id = u.id WHERE ativo = 1;";
 
@@ -80,6 +83,7 @@ public class ProfessorDAO {
         return professores;
     }
 
+    @Override
     public boolean atualizar (DadosAtualizarProfessor dados) throws SQLException {
         String sql = "UPDATE professor p JOIN usuario u ON p.usuario_id = u.id SET siape = ? WHERE ativo = 1 AND email = ? AND senha = ?;";
 

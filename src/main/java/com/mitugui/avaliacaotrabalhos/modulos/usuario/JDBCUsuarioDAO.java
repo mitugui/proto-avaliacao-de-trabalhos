@@ -2,6 +2,7 @@ package com.mitugui.avaliacaotrabalhos.modulos.usuario;
 
 import com.mitugui.avaliacaotrabalhos.exceptions.ConexaoBancoException;
 import com.mitugui.avaliacaotrabalhos.exceptions.UsuarioNaoEncontradoException;
+import com.mitugui.avaliacaotrabalhos.interfaces.UsuarioDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,13 +11,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsuarioDAO {
+public class JDBCUsuarioDAO implements UsuarioDAO {
     private Connection conn;
 
-    public UsuarioDAO(Connection connection) {
+    public JDBCUsuarioDAO(Connection connection) {
         this.conn = connection;
     }
 
+    @Override
     public boolean salvar(DadosCadastroUsuario usuario) throws SQLException {
         String sql = "INSERT INTO usuario(nome, email, senha) VALUES (?, ?, ?)";
 
@@ -29,6 +31,7 @@ public class UsuarioDAO {
         }
     }
 
+    @Override
     public List<DadosListagemUsuario> listar() throws SQLException {
         String sql = "SELECT u.nome, u.email FROM usuario u WHERE ativo = 1;";
 
@@ -49,7 +52,8 @@ public class UsuarioDAO {
         return usuarios;
     }
 
-    public boolean atualizar(DadosAtualizarUsuario usuario, Integer id) throws SQLException{
+    @Override
+    public boolean atualizar(DadosAtualizarUsuario usuario, Integer id) throws SQLException {
         String sql = "UPDATE usuario SET nome = ?, email = ?, senha = ? WHERE id = ? AND ativo = 1;";
 
         try (PreparedStatement pstm = conn.prepareStatement(sql)) {
@@ -62,6 +66,7 @@ public class UsuarioDAO {
         }
     }
 
+    @Override
     public boolean deletar(Integer id) throws SQLException {
         String sql = "UPDATE usuario SET ativo = false WHERE id = ?";
 
@@ -72,6 +77,7 @@ public class UsuarioDAO {
         }
     }
 
+    @Override
     public Integer validar(DadosValidacaoUsuario usuario) throws UsuarioNaoEncontradoException {
         String sql = "SELECT id FROM usuario WHERE ativo = 1 AND email = ? AND senha = ?;";
 
