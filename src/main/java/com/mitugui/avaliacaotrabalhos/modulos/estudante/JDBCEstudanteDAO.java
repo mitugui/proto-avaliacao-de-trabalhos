@@ -1,12 +1,14 @@
 package com.mitugui.avaliacaotrabalhos.modulos.estudante;
 
+import com.mitugui.avaliacaotrabalhos.exceptions.ConexaoBancoException;
+import com.mitugui.avaliacaotrabalhos.interfaces.EstudanteDAO;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import com.mitugui.avaliacaotrabalhos.exceptions.ConexaoBancoException;
-import com.mitugui.avaliacaotrabalhos.interfaces.EstudanteDAO;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JDBCEstudanteDAO implements EstudanteDAO {
     private Connection conn;
@@ -41,5 +43,32 @@ public class JDBCEstudanteDAO implements EstudanteDAO {
         } catch (SQLException e) {
             throw new ConexaoBancoException("Erro na conexão com o banco de dados ao cadastrar estudante.", e);
         }
+    }
+
+    @Override
+    public List<DadosListagemEstudante> listar() throws SQLException {
+        String sql = "SELECT u.nome, u.email, e.matricula, c.nome as curso, e.ano_ingresso FROM estudante e " +
+                        "JOIN usuario u ON e.usuario_id = u.id " +
+                        "JOIN curso c ON e.curso_id = c.id " +
+                        "WHERE u.ativo = 1;";
+
+        List<DadosListagemEstudante> estudantes = new ArrayList<>();
+
+        try (
+                PreparedStatement pstm = conn.prepareStatement(sql);
+                ResultSet rs = pstm.executeQuery()
+        ) {
+            while (rs.next()) {
+                String nome = rs.getString("nome");
+                String email = rs.getString("email");
+                String matricula = rs.getString("matricula");
+                String curso = rs.getString("curso");
+                Integer anoIngresso = rs.getInt("ano_ingresso");
+
+                estudantes.add(new DadosListagemEstudante(nome, email, matricula, curso, anoIngresso));
+            }
+        }
+
+        return estudantes;
     }
 }

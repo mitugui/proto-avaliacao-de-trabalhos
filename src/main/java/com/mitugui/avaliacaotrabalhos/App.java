@@ -1,6 +1,7 @@
 package com.mitugui.avaliacaotrabalhos;
 
 import com.mitugui.avaliacaotrabalhos.modulos.estudante.DadosCadastroEstudante;
+import com.mitugui.avaliacaotrabalhos.modulos.estudante.DadosListagemEstudante;
 import com.mitugui.avaliacaotrabalhos.modulos.estudante.EstudanteService;
 import com.mitugui.avaliacaotrabalhos.modulos.professor.DadosAtualizarProfessor;
 import com.mitugui.avaliacaotrabalhos.modulos.professor.DadosCadastroProfessor;
@@ -62,6 +63,9 @@ public class App {
                 case 8:
                     cadastrarEstudante();
                     break;
+                case 9:
+                    listarEstudantes();
+                    break;
                 
                 case 0:
                     System.out.println("Saindo...");
@@ -89,6 +93,7 @@ public class App {
         System.out.println("7 - Atualizar professor");
         System.out.println();
         System.out.println("8 - Cadastrar estudante");
+        System.out.println("9 - Listar estudantes");
         System.out.println();
         System.out.println("0 - Sair");
         System.out.println();
@@ -208,9 +213,9 @@ public class App {
     }
 
     private static void listarProfessores() {
-        List<DadosListagemProfessor> professores = professorService.listar();
-
         try {
+            List<DadosListagemProfessor> professores = professorService.listar();
+
             if (!professores.isEmpty()) {
                 professores.forEach(p -> {
                     System.out.println("\nNome: " + p.nome());
@@ -269,6 +274,25 @@ public class App {
                 System.out.println("\nEstudante cadastrado com sucesso!!");
             } else {
                 System.out.println("\nErrooooo!");
+            }
+        } catch (RuntimeException e) {
+            System.out.println("\n- " + e.getMessage());
+        }
+    }
+
+    private static void listarEstudantes() {
+        try {
+            List<DadosListagemEstudante> estudantes = estudanteService.listar();
+            if (!estudantes.isEmpty()) {
+                estudantes.forEach(e -> {
+                    System.out.println("\nNome: " + e.nome());
+                    System.out.println("Email: " + e.email());
+                    System.out.println("Matrícula: " + e.matricula());
+                    System.out.println("Curso: " + e.curso());
+                    System.out.println("Ano de Ingresso: " + e.anoIngresso());
+                });
+            } else {
+                System.out.println("Não há estudantes cadastrados no momento!");
             }
         } catch (RuntimeException e) {
             System.out.println("\n- " + e.getMessage());

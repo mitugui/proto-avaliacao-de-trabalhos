@@ -1,13 +1,14 @@
 package com.mitugui.avaliacaotrabalhos.modulos.estudante;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
 import com.mitugui.avaliacaotrabalhos.config.FabricaDeConexoes;
 import com.mitugui.avaliacaotrabalhos.exceptions.ConexaoBancoException;
 import com.mitugui.avaliacaotrabalhos.exceptions.UsuarioNaoEncontradoException;
 import com.mitugui.avaliacaotrabalhos.modulos.usuario.DadosValidacaoUsuario;
 import com.mitugui.avaliacaotrabalhos.modulos.usuario.JDBCUsuarioDAO;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 public class EstudanteService {
     public boolean cadastrarEstudante(DadosCadastroEstudante estudante){
@@ -49,5 +50,13 @@ public class EstudanteService {
         }
 
         return mensagem;
+    }
+
+    public List<DadosListagemEstudante> listar() {
+        try (Connection conn = FabricaDeConexoes.getConnection()) {
+            return new JDBCEstudanteDAO(conn).listar();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro no banco ao listar estudantes.");
+        }
     }
 }
