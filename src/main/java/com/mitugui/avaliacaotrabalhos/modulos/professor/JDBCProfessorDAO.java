@@ -42,20 +42,33 @@ public class JDBCProfessorDAO implements ProfessorDAO {
 
     @Override
     public boolean salvar(DadosCadastroProfessor professor) throws SQLException {
-        String sql = "INSERT INTO professor(usuario_id, siape) VALUES (?, ?)";
-        int usuario_id;
+        int usuarioId;
 
         try {
-            usuario_id = procurar(professor);
+            usuarioId = procurar(professor);
         } catch (UsuarioNaoEncontradoException e) {
             throw new IllegalArgumentException("Não foi possível salvar: " + e.getMessage(), e);
         }
 
-        try (PreparedStatement pstm = conn.prepareStatement(sql)) {
-            pstm.setInt(1, usuario_id);
-            pstm.setInt(2, professor.siape());
+        String sqlVerificacao = "SELECT 1 FROM estudante WHERE usuario_id = ?";
 
-            return pstm.executeUpdate() == 1;
+        try (PreparedStatement pstmVerificacao = conn.prepareStatement(sqlVerificacao)) {
+            pstmVerificacao.setInt(1, usuarioId);
+
+            try (ResultSet rs = pstmVerificacao.executeQuery()) {
+                if (!rs.next()) {
+                    String sqlCadastro = "INSERT INTO professor(usuario_id, siape) VALUES (?, ?)";
+
+                    try (PreparedStatement pstmCadastro = conn.prepareStatement(sqlCadastro)) {
+                        pstmCadastro.setInt(1, usuarioId);
+                        pstmCadastro.setInt(2, professor.siape());
+
+                        return pstmCadastro.executeUpdate() == 1;
+                    }
+                } else {
+                    return false;
+                }
+            }
         } catch (SQLException e) {
             throw new ConexaoBancoException("Erro na conexão com o banco de dados ao cadastrar professor.", e);
         }
