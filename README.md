@@ -11,6 +11,9 @@ O objetivo do projeto é criar um protótipo de sistema para gerenciamento de av
 - `Cristian Oliveira Mitugui`
 - `Nicholas Martins Kotzias`
 ---
+## Professor
+- `Wagner Rodrigo Weinert`
+---
 ---
 
 ## Funcionalidades
