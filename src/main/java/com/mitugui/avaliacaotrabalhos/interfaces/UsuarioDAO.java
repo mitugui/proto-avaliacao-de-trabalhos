@@ -1,5 +1,6 @@
 package com.mitugui.avaliacaotrabalhos.interfaces;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -10,13 +11,13 @@ import com.mitugui.avaliacaotrabalhos.modulos.usuario.DadosListagemUsuario;
 import com.mitugui.avaliacaotrabalhos.modulos.usuario.DadosValidacaoUsuario;
 
 public interface UsuarioDAO {
-    boolean salvar(DadosCadastroUsuario usuario) throws SQLException;  
+    boolean salvar(Connection conn, DadosCadastroUsuario usuario) throws SQLException;
     
-    public List<DadosListagemUsuario> listar() throws SQLException;
+    List<DadosListagemUsuario> listar(Connection conn) throws SQLException;
 
-    boolean atualizar(DadosAtualizarUsuario usuario, Integer id) throws SQLException;
+    boolean atualizar(Connection conn,DadosAtualizarUsuario usuario, Integer id) throws SQLException;
 
-    boolean deletar(Integer id) throws SQLException;
+    boolean deletar(Connection conn,Integer id) throws SQLException;
 
-    Integer validar(DadosValidacaoUsuario usuario) throws UsuarioNaoEncontradoException;
+    Integer validar(Connection conn,DadosValidacaoUsuario usuario) throws UsuarioNaoEncontradoException;
 }

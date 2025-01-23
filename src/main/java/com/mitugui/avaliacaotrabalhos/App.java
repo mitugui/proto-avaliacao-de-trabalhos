@@ -7,11 +7,7 @@ import com.mitugui.avaliacaotrabalhos.modulos.professor.DadosAtualizarProfessor;
 import com.mitugui.avaliacaotrabalhos.modulos.professor.DadosCadastroProfessor;
 import com.mitugui.avaliacaotrabalhos.modulos.professor.DadosListagemProfessor;
 import com.mitugui.avaliacaotrabalhos.modulos.professor.ProfessorService;
-import com.mitugui.avaliacaotrabalhos.modulos.usuario.DadosAtualizarUsuario;
-import com.mitugui.avaliacaotrabalhos.modulos.usuario.DadosCadastroUsuario;
-import com.mitugui.avaliacaotrabalhos.modulos.usuario.DadosListagemUsuario;
-import com.mitugui.avaliacaotrabalhos.modulos.usuario.DadosValidacaoUsuario;
-import com.mitugui.avaliacaotrabalhos.modulos.usuario.UsuarioService;
+import com.mitugui.avaliacaotrabalhos.modulos.usuario.*;
 
 import java.util.InputMismatchException;
 import java.util.List;
@@ -19,7 +15,7 @@ import java.util.Scanner;
 
 public class App {
     private final static Scanner leitura = new Scanner(System.in);
-    private final static UsuarioService usuarioService = new UsuarioService();
+    private final static UsuarioService usuarioService = new UsuarioService(new JDBCUsuarioDAO());
     private final static ProfessorService professorService = new ProfessorService();
     private final static EstudanteService estudanteService = new EstudanteService();
 

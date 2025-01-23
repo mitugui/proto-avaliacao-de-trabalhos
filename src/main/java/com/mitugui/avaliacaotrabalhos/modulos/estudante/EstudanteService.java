@@ -21,7 +21,7 @@ public class EstudanteService {
         DadosValidacaoUsuario usuario = new DadosValidacaoUsuario(estudante.email(), estudante.senha());
 
         try(Connection conn = FabricaDeConexoes.getConnection()){
-            return new JDBCEstudanteDAO(conn).salvar(estudante, new JDBCUsuarioDAO(conn).validar(usuario));
+            return new JDBCEstudanteDAO(conn).salvar(estudante, new JDBCUsuarioDAO().validar(conn, usuario));
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Erro na validação dos dados: " + e.getMessage());
         } catch (ConexaoBancoException e) {

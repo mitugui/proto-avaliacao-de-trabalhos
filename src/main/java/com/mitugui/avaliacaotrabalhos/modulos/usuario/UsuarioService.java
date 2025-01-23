@@ -9,6 +9,12 @@ import com.mitugui.avaliacaotrabalhos.exceptions.ConexaoBancoException;
 import com.mitugui.avaliacaotrabalhos.exceptions.UsuarioNaoEncontradoException;
 
 public class UsuarioService {
+    private final JDBCUsuarioDAO usuarioDAO;
+
+    public UsuarioService(JDBCUsuarioDAO usuarioDAO) {
+        this.usuarioDAO = usuarioDAO;
+    }
+
     public boolean cadastrarUsuario(DadosCadastroUsuario usuario) {
         String mensagem = validarDadosCadastro(usuario);
 
@@ -17,7 +23,7 @@ public class UsuarioService {
         }
 
         try (Connection conn = FabricaDeConexoes.getConnection()) {
-            return new JDBCUsuarioDAO(conn).salvar(usuario);
+            return usuarioDAO.salvar(conn, usuario);
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao cadastrar usuário no banco de dados.", e);
         }
@@ -41,7 +47,7 @@ public class UsuarioService {
 
     public List<DadosListagemUsuario> listar() {
         try (Connection conn = FabricaDeConexoes.getConnection()) {
-            return new JDBCUsuarioDAO(conn).listar();
+            return usuarioDAO.listar(conn);
         } catch (SQLException e) {
             throw new RuntimeException("Erro no banco ao listar usuários", e);
         }
@@ -49,7 +55,7 @@ public class UsuarioService {
 
     public boolean atualizar(DadosAtualizarUsuario usuario, DadosValidacaoUsuario usuarioValidacao){
         try (Connection conn = FabricaDeConexoes.getConnection()) {
-            return new JDBCUsuarioDAO(conn).atualizar(usuario, validar(usuarioValidacao, conn));
+            return usuarioDAO.atualizar(conn, usuario, validar(usuarioValidacao, conn));
         } catch (SQLException e) {
             throw new RuntimeException("Erro no banco ao atualizar usuário", e);
         }
@@ -57,7 +63,7 @@ public class UsuarioService {
 
     public boolean deletar(DadosValidacaoUsuario dados) {
         try (Connection conn = FabricaDeConexoes.getConnection()) {
-            return new JDBCUsuarioDAO(conn).deletar(validar(dados, conn));
+            return usuarioDAO.deletar(conn, validar(dados, conn));
         } catch (SQLException e) {
             throw new RuntimeException("Erro no banco ao deletar usuário", e);
         }
@@ -65,7 +71,7 @@ public class UsuarioService {
 
     public Integer validar(DadosValidacaoUsuario dados, Connection conn) {
         try {
-            return new JDBCUsuarioDAO(conn).validar(dados);
+            return usuarioDAO.validar(conn, dados);
         } catch (UsuarioNaoEncontradoException e) {
             throw new RuntimeException(e.getMessage());
         } catch (ConexaoBancoException e) {
