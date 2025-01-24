@@ -8,6 +8,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class ProfessorService {
+    private final JDBCProfessorDAO professorDAO;
+
+    public ProfessorService(JDBCProfessorDAO professorDAO) {
+        this.professorDAO = professorDAO;
+    }
+
     public boolean cadastrarProfessor(DadosCadastroProfessor professor){
         String mensagem = validarDadosCadastro(professor);
 
@@ -16,7 +22,7 @@ public class ProfessorService {
         }
 
         try (Connection conn = FabricaDeConexoes.getConnection()) {
-            return new JDBCProfessorDAO(conn).salvar(professor);
+            return professorDAO.salvar(conn, professor);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Erro na validação dos dados: " + e.getMessage());
         } catch (ConexaoBancoException e) {
@@ -44,7 +50,7 @@ public class ProfessorService {
     
     public List<DadosListagemProfessor> listar() {
         try (Connection conn = FabricaDeConexoes.getConnection()) {
-            return new JDBCProfessorDAO(conn).listar();
+            return professorDAO.listar(conn);
         } catch (SQLException e) {
             throw new RuntimeException("Erro no banco ao listar professores.", e);
         }
@@ -52,7 +58,7 @@ public class ProfessorService {
 
     public boolean atualizar(DadosAtualizarProfessor dados) {
         try (Connection conn = FabricaDeConexoes.getConnection()) {
-            return new JDBCProfessorDAO(conn).atualizar(dados);
+            return professorDAO.atualizar(conn, dados);
         } catch (SQLException e) {
             throw new RuntimeException("Erro no banco ao atualizar professores.", e);            
         }

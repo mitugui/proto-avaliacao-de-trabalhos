@@ -11,14 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JDBCEstudanteDAO implements EstudanteDAO {
-    private Connection conn;
-
-    public JDBCEstudanteDAO(Connection connection){
-        this.conn = connection;
-    }
-
     @Override
-    public boolean salvar(DadosCadastroEstudante estudante, Integer usuario_id) throws SQLException {
+    public boolean salvar(Connection conn, DadosCadastroEstudante estudante, Integer usuario_id) throws SQLException {
         String sqlVerificacao = "SELECT 1 FROM professor WHERE usuario_id = ?";
 
         try(PreparedStatement pstmVerificacao = conn.prepareStatement(sqlVerificacao)) {
@@ -46,7 +40,7 @@ public class JDBCEstudanteDAO implements EstudanteDAO {
     }
 
     @Override
-    public List<DadosListagemEstudante> listar() throws SQLException {
+    public List<DadosListagemEstudante> listar(Connection conn) throws SQLException {
         String sql = "SELECT u.nome, u.email, e.matricula, c.nome as curso, e.ano_ingresso FROM estudante e " +
                         "JOIN usuario u ON e.usuario_id = u.id " +
                         "JOIN curso c ON e.curso_id = c.id " +

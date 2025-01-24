@@ -12,15 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JDBCProfessorDAO implements ProfessorDAO {
-    private final Connection conn;
-
-    public JDBCProfessorDAO(Connection connection){
-        this.conn = connection;
-    }
-
-    private int procurar(DadosCadastroProfessor professor) throws UsuarioNaoEncontradoException {
+    private int procurar(Connection conn, DadosCadastroProfessor professor) throws UsuarioNaoEncontradoException {
         String sql = "SELECT id FROM usuario WHERE email = ? AND senha = ? AND ativo = 1;";
-        int usuario_id = 0;
 
         try (PreparedStatement pstm = conn.prepareStatement(sql)) {
             pstm.setString(1, professor.email());
@@ -28,7 +21,7 @@ public class JDBCProfessorDAO implements ProfessorDAO {
 
             try (ResultSet rs = pstm.executeQuery()) {
                 if(rs.next()) {
-                    usuario_id = rs.getInt("id");
+                    return rs.getInt("id");
                 } else {
                     throw new UsuarioNaoEncontradoException("Usuario não encontrado no banco de dados!");
                 }
@@ -36,16 +29,14 @@ public class JDBCProfessorDAO implements ProfessorDAO {
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao procurar usuário no banco de dados.", e);
         }
-
-        return usuario_id;
     }
 
     @Override
-    public boolean salvar(DadosCadastroProfessor professor) throws SQLException {
+    public boolean salvar(Connection conn, DadosCadastroProfessor professor) throws SQLException {
         int usuarioId;
 
         try {
-            usuarioId = procurar(professor);
+            usuarioId = procurar(conn, professor);
         } catch (UsuarioNaoEncontradoException e) {
             throw new IllegalArgumentException("Não foi possível salvar: " + e.getMessage(), e);
         }
@@ -75,7 +66,7 @@ public class JDBCProfessorDAO implements ProfessorDAO {
     }
 
     @Override
-    public List<DadosListagemProfessor> listar() throws SQLException {
+    public List<DadosListagemProfessor> listar(Connection conn) throws SQLException {
         String sql = "SELECT u.nome, u.email, p.siape FROM professor p JOIN usuario u ON p.usuario_id = u.id WHERE ativo = 1;";
 
         List<DadosListagemProfessor> professores = new ArrayList<>();
@@ -97,7 +88,7 @@ public class JDBCProfessorDAO implements ProfessorDAO {
     }
 
     @Override
-    public boolean atualizar (DadosAtualizarProfessor dados) throws SQLException {
+    public boolean atualizar (Connection conn, DadosAtualizarProfessor dados) throws SQLException {
         String sql = "UPDATE professor p JOIN usuario u ON p.usuario_id = u.id SET siape = ? WHERE ativo = 1 AND email = ? AND senha = ?;";
 
         try (PreparedStatement pstm = conn.prepareStatement(sql)) {

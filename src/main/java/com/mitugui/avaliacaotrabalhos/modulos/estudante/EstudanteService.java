@@ -11,6 +11,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class EstudanteService {
+    private final JDBCEstudanteDAO estudanteDAO;
+
+    public EstudanteService(JDBCEstudanteDAO estudanteDAO) {
+        this.estudanteDAO = estudanteDAO;
+    }
+
     public boolean cadastrarEstudante(DadosCadastroEstudante estudante){
         String mensagem = validarDadosCadastro(estudante);
 
@@ -21,7 +27,7 @@ public class EstudanteService {
         DadosValidacaoUsuario usuario = new DadosValidacaoUsuario(estudante.email(), estudante.senha());
 
         try(Connection conn = FabricaDeConexoes.getConnection()){
-            return new JDBCEstudanteDAO(conn).salvar(estudante, new JDBCUsuarioDAO().validar(conn, usuario));
+            return estudanteDAO.salvar(conn, estudante, new JDBCUsuarioDAO().validar(conn, usuario));
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Erro na validação dos dados: " + e.getMessage());
         } catch (ConexaoBancoException e) {
@@ -54,7 +60,7 @@ public class EstudanteService {
 
     public List<DadosListagemEstudante> listar() {
         try (Connection conn = FabricaDeConexoes.getConnection()) {
-            return new JDBCEstudanteDAO(conn).listar();
+            return estudanteDAO.listar(conn);
         } catch (SQLException e) {
             throw new RuntimeException("Erro no banco ao listar estudantes.");
         }
