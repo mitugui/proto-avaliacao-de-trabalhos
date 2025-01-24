@@ -2,15 +2,16 @@ package com.mitugui.avaliacaotrabalhos.modulos.professor;
 
 import com.mitugui.avaliacaotrabalhos.config.FabricaDeConexoes;
 import com.mitugui.avaliacaotrabalhos.exceptions.ConexaoBancoException;
+import com.mitugui.avaliacaotrabalhos.interfaces.ProfessorDAO;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
 public class ProfessorService {
-    private final JDBCProfessorDAO professorDAO;
+    private final ProfessorDAO professorDAO;
 
-    public ProfessorService(JDBCProfessorDAO professorDAO) {
+    public ProfessorService(ProfessorDAO professorDAO) {
         this.professorDAO = professorDAO;
     }
 

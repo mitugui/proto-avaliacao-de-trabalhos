@@ -3,6 +3,7 @@ package com.mitugui.avaliacaotrabalhos.modulos.estudante;
 import com.mitugui.avaliacaotrabalhos.config.FabricaDeConexoes;
 import com.mitugui.avaliacaotrabalhos.exceptions.ConexaoBancoException;
 import com.mitugui.avaliacaotrabalhos.exceptions.UsuarioNaoEncontradoException;
+import com.mitugui.avaliacaotrabalhos.interfaces.EstudanteDAO;
 import com.mitugui.avaliacaotrabalhos.modulos.usuario.DadosValidacaoUsuario;
 import com.mitugui.avaliacaotrabalhos.modulos.usuario.JDBCUsuarioDAO;
 
@@ -11,9 +12,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class EstudanteService {
-    private final JDBCEstudanteDAO estudanteDAO;
+    private final EstudanteDAO estudanteDAO;
 
-    public EstudanteService(JDBCEstudanteDAO estudanteDAO) {
+    public EstudanteService(EstudanteDAO estudanteDAO) {
         this.estudanteDAO = estudanteDAO;
     }
 

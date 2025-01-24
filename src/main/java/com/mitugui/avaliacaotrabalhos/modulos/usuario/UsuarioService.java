@@ -7,11 +7,12 @@ import java.util.List;
 import com.mitugui.avaliacaotrabalhos.config.FabricaDeConexoes;
 import com.mitugui.avaliacaotrabalhos.exceptions.ConexaoBancoException;
 import com.mitugui.avaliacaotrabalhos.exceptions.UsuarioNaoEncontradoException;
+import com.mitugui.avaliacaotrabalhos.interfaces.UsuarioDAO;
 
 public class UsuarioService {
-    private final JDBCUsuarioDAO usuarioDAO;
+    private final UsuarioDAO usuarioDAO;
 
-    public UsuarioService(JDBCUsuarioDAO usuarioDAO) {
+    public UsuarioService(UsuarioDAO usuarioDAO) {
         this.usuarioDAO = usuarioDAO;
     }
 
