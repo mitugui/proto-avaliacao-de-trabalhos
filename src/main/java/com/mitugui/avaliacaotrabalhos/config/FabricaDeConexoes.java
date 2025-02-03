@@ -1,4 +1,5 @@
 package com.mitugui.avaliacaotrabalhos.config;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -18,6 +19,9 @@ public class FabricaDeConexoes {
     private static final String DB_PASSWORD = dotenv.get("DB_PASSWORD");
 
     private static final String DB_URL = "jdbc:" + DB_TYPE + "://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME;
+
+    private FabricaDeConexoes() {
+    }
 
     public static Connection getConnection() throws RuntimeException {
         try {
